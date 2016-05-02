@@ -4,6 +4,7 @@ from math import log
 
 class DecisionTree:
 
+
     # load iris datasets
     def load_iris(self, iris_data):
         datasets = loadtxt(iris_data)
@@ -13,51 +14,56 @@ class DecisionTree:
         
         return X, y
 
-
-    def calShanonEnt(self, y):
+    # calculate Shannon entropy
+    def cal_shannon_ent(self, y):
         n = y.size
 
         count = defaultdict(lambda: 0)
         for label in y:
             count[label] += 1
 
-        shanonEnt = 0
+        shannon_ent = 0
         for key in count:
             p = float(count[key]) / n
-            shanonEnt -= p * log(p, 2)
+            shannon_ent -= p * log(p, 2)
 
-        return shanonEnt
+        return shannon_ent
 
-    # split the dataset accoding to the label
-    def splitDataSet(self, X, axis, value):
-        retDataSet = []
-        for x in X:
-            if x[axis] == value:
-                reducedFeatVec = x[:axis]
-                reducedFeatVec.extend(featVec[axis + 1 :])
-                retDataSet.append(reducedFeatVec)
-        return retDataSet
+    # split the dataset accoding to the axis which value is 'value'
+    def split_data_set(self, X, y, axis, value):
+        ret_sub_X = []
+        ret_sub_y = []
+        for i in range(len(X)):
+            if x[i][axis] == value:
+                reduced_x = x[:axis]
+                reduced_x.extend(x[axis + 1 :])
+                ret_sub_X.append(reduced_x)
+                ret_sub_y.extend(y[i])
+        return ret_sub_X, ret_sub_y
 
-    def best_splitnode(self, X, label):
-        n_fea = len(X[0])
-        n = len(label)
-        base_entropy = calEntropy(label)
-        best_gain = -1
-        for fea_i in range(n_fea):
-            cur_entropy = 0
-            indexset_less, idxset_greater = splitdata(X, fea_i)
-            prob_less = float(len(idxset_less)) / n
-            prob_greater = float(len(idxset_greater)) / n
+    # select the best feature to split
+    def split_by_x(self, X, y):
+        n_feature = len(X[0])
+        base_entropy = self.cal_shannon_ent(y)
+        best_info_gain = 0.0
+        best_feature = -1
 
-            cur_entropy += porb_less * calEntropy(label[idxset_less])
-            cur_entropy += prob_greater * calEntropy(label[idxset_greater])
+        for i in range(n_feature):
+            feature_list = [x[i] for x in X]
+            unique_val = set(feature_list)
+            cur_entropy = 0.0
+            for value in unique_val:
+                sub_X, sub_y = self.split_data_set(X, y, i, value)
+                prob = len(sub_X) / float(len(X))
+                cur_entropy += prob * self.cal_shannon_ent(sub_y)
 
             info_gain = base_entropy - cur_entropy
-            if (info_gain > best_gain):
-                best_gain = info_gain
-                best_idx = fea_i
 
-        return best_idx
+            if info_gain > best_info_gain:
+                best_info_gain = info_gain
+                best_feature = i
+
+        return best_feature
 
     # create the decision tree based on information gain
     def fit(X, y):
@@ -74,9 +80,25 @@ class DecisionTree:
         if len(feanamecopy) == 0
 
     def predict(self, tree, x):
+        if type(tree).__name__ != 'dict':
+            return tree
+        feature_name = tree.keys()[0]
+        feature_idx = feature_name.index(feature_name)
+        val = x[feature_idx]
+        nextbranch = tree[feature_name]
+
+        if val > args[feature_idx]:
+            nextbranch = nextbranch[">"]
+        else:
+            nextbranch = nextbranch["<"]
+    
+        return self.predict(nextbranch, x)
 
 def test():
     clf = DecisionTree()
+    X, y = clf.load_iris()
+    tree = clf.fit(X, y)
+    print clf.predict(tree, x)
 
 if __name__ == '__main__':
     test()
