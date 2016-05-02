@@ -11,8 +11,9 @@ class DecisionTree:
 
         X = datasets[0:4, :]
         y = datasets[4:, :]
-        
-        return X, y
+        labels = ['sepal_width', 'sepal_length', 'petal_length', 
+                'petal_width']
+        return X, y, labels
 
     # calculate Shannon entropy
     def cal_shannon_ent(self, y):
@@ -64,40 +65,42 @@ class DecisionTree:
                 best_feature = i
 
         return best_feature
+    
+    def vote(y):
+        count = defaultdict(lambda: 0)
+        for vote in y:
+            count[vote] += 1
+        sorted_count = sorted(count.iteritems(), key = operator.itemgetter(1), reverse = True)
+        return sorted_count[0][0]
 
     # create the decision tree based on information gain
     def fit(X, y):
-        if y.size == 0:
-            return NULL
-        listlabel = y.tolist()
+        classes = [item for item in y]
+        if classed.count(classed[0]) == len(classes):
+            return class[0]
+        if len(X[0]) == 1:
+            return self.vote(classes)
 
-        # stop when all samples in this subset belongs to one class
-        if listlabel.count(y[0]) == label.size:
-            return y[0]
 
-        # return the majority of samples' label in this subset if no 
-        # extra features avaliable
-        if len(feanamecopy) == 0
+        best_feature = self.split_by_x(X, y)
 
-    def predict(self, tree, x):
-        if type(tree).__name__ != 'dict':
-            return tree
-        feature_name = tree.keys()[0]
-        feature_idx = feature_name.index(feature_name)
-        val = x[feature_idx]
-        nextbranch = tree[feature_name]
-
-        if val > args[feature_idx]:
-            nextbranch = nextbranch[">"]
+    def predict(self, tree, y, x):
+        first = tree.keys()[0]
+        second = tree[first]
+        feature_idx = y.index(first)
+        key = x[feature_idx]
+        value - second[key]
+        if isinstance(value, dict):
+            res = self.predict(value, y, x)
         else:
-            nextbranch = nextbranch["<"]
-    
-        return self.predict(nextbranch, x)
+            res = value
+
+        return res
 
 def test():
     clf = DecisionTree()
-    X, y = clf.load_iris()
-    tree = clf.fit(X, y)
+    X, y, labels = clf.load_iris('iris.data.txt')
+    tree = clf.fit(X, y, labels)
     print clf.predict(tree, x)
 
 if __name__ == '__main__':
