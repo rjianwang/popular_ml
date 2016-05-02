@@ -21,7 +21,7 @@ class KMeans:
             changed = False
 
             # stop if iteration times is great than max_it
-            if max_it != None and iterations > max_it:
+            if not max_it is None and iterations > max_it:
                 break
 
             # for each sample
