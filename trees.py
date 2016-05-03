@@ -7,7 +7,7 @@ class DecisionTree:
     # load iris datasets
     def load_iris(self):
         dataset = np.loadtxt('iris.data.txt', delimiter = ',', usecols = (0, 1, 2, 3), dtype = float)
-        target = np.loadtxt('iris.data.txt', delimiter = ',', usecols = (range(4, 5)), dtype = str)
+        target = np.loadtxt('iris.data.txt', delimiter = ',', usecols = (4,), dtype = str)
         X = dataset.tolist()
         y = target.tolist()
         labels = ['sepal_width', 'sepal_length', 'petal_length', 'petal_width']
@@ -117,7 +117,7 @@ def test():
     x = [5.9, 3.0, 5.1, 1.9]
 
     tree = clf.fit(X, y, labels_copy)
-    print clf.predict(tree, labels, x)
+    print clf.predict(tree, labels, X[0])
 
 if __name__ == '__main__':
     test()
