@@ -4,17 +4,14 @@ from math import log
 
 class DecisionTree:
 
-
     # load iris datasets
-    def load_iris(self, iris_data):
-        dataset = np.loadtxt(iris_data, delimiter = ',', usecols = 
-                (0, 1, 2, 3), dtype = float)
-        target = np.loadtxt(iris_data, delimiter = ',', usecols = 
-               (range(4, 5)), dtype = str)
+    def load_iris(self):
+        dataset = np.loadtxt('iris.data.txt', delimiter = ',', usecols = (0, 1, 2, 3), dtype = float)
+        target = np.loadtxt('iris.data.txt', delimiter = ',', usecols = (range(4, 5)), dtype = str)
         X = dataset.tolist()
         y = target.tolist()
-        labels = ['sepal_width', 'sepal_length', 'petal_length', 
-                'petal_width']
+        labels = ['sepal_width', 'sepal_length', 'petal_length', 'petal_width']
+        labels_copy = labels[:]
         return X, y, labels
 
     # calculate Shannon entropy
@@ -41,7 +38,7 @@ class DecisionTree:
                 reduced_x = X[i][:axis]
                 reduced_x.extend(X[i][axis + 1 :])
                 ret_sub_X.append(reduced_x)
-                ret_sub_y.extend(y[i])
+                ret_sub_y.append(y[i])
         return ret_sub_X, ret_sub_y
 
     # select the best feature to split
@@ -94,7 +91,9 @@ class DecisionTree:
         for value in unique_values:
             sub_labels = labels[:]
             sub_X, sub_y = self.split_dataset(X, y, best_feature, value)
-            tree[best_feature_label][value] = self.fit(sub_X,  _y, sub_labels)
+            tree[best_feature_label][value] = self.fit(sub_X,  sub_y, sub_labels)
+
+        return tree
 
     # classify sample x accoding the tree
     def predict(self, tree, labels, x):
@@ -113,7 +112,10 @@ class DecisionTree:
 
 def test():
     clf = DecisionTree()
-    X, y, labels = clf.load_iris('iris.data.txt')
+
+    X, y, labels = clf.load_iris()
+    x = [5.9, 3.0, 5.1, 1.8]
+
     tree = clf.fit(X, y, labels)
     print clf.predict(tree, labels, x)
 
