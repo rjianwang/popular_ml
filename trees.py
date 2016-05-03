@@ -11,7 +11,6 @@ class DecisionTree:
         X = dataset.tolist()
         y = target.tolist()
         labels = ['sepal_width', 'sepal_length', 'petal_length', 'petal_width']
-        labels_copy = labels[:]
         return X, y, labels
 
     # calculate Shannon entropy
@@ -114,9 +113,10 @@ def test():
     clf = DecisionTree()
 
     X, y, labels = clf.load_iris()
-    x = [5.9, 3.0, 5.1, 1.8]
+    labels_copy = labels[:]
+    x = [5.9, 3.0, 5.1, 1.9]
 
-    tree = clf.fit(X, y, labels)
+    tree = clf.fit(X, y, labels_copy)
     print clf.predict(tree, labels, x)
 
 if __name__ == '__main__':
