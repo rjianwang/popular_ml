@@ -34,6 +34,7 @@ def test():
     clf = Perceptron()
     clf = clf.train(X, y)
     print clf.predict(x)
+    print clf.errors_
 
 if __name__ == '__main__':
     test()
