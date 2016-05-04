@@ -7,7 +7,6 @@ class Perceptron(object):
 
     def train(self, X, y):
         self.w_ = np.zeros (1 + X.shape[1])
-        self.errors_ = []
 
         for _ in range(self.epochs):
             for xi, target in zip(X, y):
