@@ -27,8 +27,9 @@ def test():
 
     clf = Perceptron(eta = 1)
     clf = clf.train(X, y)
-    print clf.predict(x)
-    print clf.w_
+    print "class:   ", clf.predict(x)
+    print "weights: ", clf.w_[1:]
+    print "bias:    ", clf.w_[0]
 
 if __name__ == '__main__':
     test()
