@@ -1,7 +1,7 @@
 import numpy as np
 import operator
 
-class KNN:
+class kNN:
     def kNNClassify(self, x, X, y, k = 3):
         n_samples, n_features = X.shape
 
@@ -26,7 +26,7 @@ class KNN:
 
 
 def test():
-    knn = KNN() # create KNN object
+    knn = kNN() # create KNN object
 
     # create datasets
     X = np.array([[1, 1], [1, 2], [2, 2], [6, 4], [6, 5], [6, 6]])
