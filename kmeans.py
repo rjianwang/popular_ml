@@ -1,6 +1,6 @@
 import numpy as np
 
-class KMeans:
+class kMeans:
     # Euclidean distance
     def dist(self, vecA, vecB):
         return np.sqrt(np.sum(np.power(vecA - vecB, 2)))
@@ -47,7 +47,7 @@ class KMeans:
 
 def test():
     # create KMeans object
-    kmeans = KMeans() 
+    kmeans = kMeans() 
 
     # create datasets
     X = np.array([[1, 1], [1, 2], [4, 4], [4, 5]])
