@@ -117,7 +117,7 @@ def test():
     x = [5.9, 3.0, 5.1, 1.9]
 
     tree = clf.fit(X, y, labels_copy)
-    print clf.predict(tree, labels, X[0])
+    print clf.predict(tree, labels, x)
 
 if __name__ == '__main__':
     test()
