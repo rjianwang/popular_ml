@@ -23,7 +23,7 @@ class Perceptron(object):
 def test():
     X = np.array([[3, 3], [4, 3], [1, 1]])
     y = np.array([1, 1, -1])
-    x = [1, 0]
+    x = [1, 1]
 
     clf = Perceptron(eta = 1)
     clf = clf.train(X, y)
