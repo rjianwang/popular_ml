@@ -15,7 +15,7 @@ class LogisticRegress:
 
     def SGA(self, X, y):
         n_samples, n_features = X.shape
-        self.w_ = np.ones(n_features + 1)
+        self.w_ = np.ones(n_features)
 
         for i in xrange(self.num_it):
             index = range(n_samples)
@@ -23,21 +23,20 @@ class LogisticRegress:
                 self.alpha = 4 / (1.0 + i + j) + 0.01
                 rand_idx = int(np.random.uniform(0, len(index)))
 
-                z = self.sigmoid(np.sum(X[rand_idx] * self.w_[0:-1]) + self.w_[-1] * self.b_)
+                z = self.sigmoid(np.sum(X[rand_idx] * self.w_ + self.b_))
                 error = y[rand_idx] - z
-                self.w_[0:-1] = self.w_[0:-1] + self.alpha * error * X[rand_idx]
-                self.w_[-1] = self.w_[-1] + self.alpha * error * self.b_
+                self.w_ += self.alpha * error * X[rand_idx]
+                self.b_ = error * self.alpha
 
                 del(index[rand_idx])
 
-        return self.w_
-
-    def fit(self, X, y):
-        self.SGA(X, y)
         return self
 
+    def fit(self, X, y):
+        return self.SGA(X, y)        
+
     def predict(self, x):
-        p = self.sigmoid(np.sum(x * self.w_[0:-1] + self.w_[-1] *self.b_))
+        p = self.sigmoid(np.sum(x * self.w_ + self.b_))
         if p > 0.5:
             return 1
         return 0
@@ -47,7 +46,7 @@ def test():
     X = data[:, 0:-1]
     y = data[:, -1]
     
-    clf = LogisticRegress(num_it = 150)
+    clf = LogisticRegress(num_it = 500)
     clf = clf.fit(X, y)
 
     correct = 0;
