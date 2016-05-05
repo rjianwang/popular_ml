@@ -49,7 +49,7 @@ def test():
     clf = LogisticRegress(num_it = 500)
     clf = clf.fit(X, y)
 
-    correct = 0;
+    correct = 0
     for i in range(X.shape[0]):
         result = clf.predict(X[i])
         if result == y[i]:
