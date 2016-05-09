@@ -98,11 +98,20 @@ class NeuralNetwork(object):
         pass
 
     def evaluate(self, test_data):
-        pass
+        """
+        Return the number of the test inputs for which the neural
+        network outputs the correct result.Note that the neural
+        network's output isassumed to be the index of whicherver
+        neuraon in the final layer has the highest activation.
+        """
+        test_results = [(np.argmax(self.feedforward(x)), y)
+                for (x, y) in test_data]
+        return sum(int(x == y) for (x, y in test_results))
 
     def cost_derivative(self, output_activations, y):
         """
         Return the vector of partial derivative \partial C_x /
+        \partial a for the output activations.
         """
         return (output_activations - y)
 
