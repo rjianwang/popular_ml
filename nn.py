@@ -3,7 +3,7 @@ nn.py
 ~~~~~
 A moudle to implement the stochastic gradient descent learning
 algorithm for a feedforward neural network. Gradients are calculated
-using backpropagation. Note that I have focused on making the code 
+using back-propagation. Note that I have focused on making the code 
 simple, easily readable, and easily modifiable. It is not optimized
 and omits many desireable features.
 """
@@ -95,7 +95,45 @@ class NeuralNetwork(object):
                 for b, nb in zip(self.biases, nabla_b)]
 
     def backprop(self, X, y):
-        pass
+        """
+        Return a tuple ``(nabla_b, nabla_w)`` representing the 
+        gradient for the cost function C_x. "nabla_b" and 
+        "nabla_w" are layer-by-layer lists of numpy arrays, similar
+        to "self.biases" and "self.weigths"
+        """
+        nabla_b = [np.zeros(b.shape) for b in self.biases]
+        nabla_w = [np.zeros(w.shape) for w in self.weights]
+        # feedforward
+        activation = x
+        activations = [x] # list to store all the activations, layer by layer
+        zs = [] # list to store all the z vectors, layer by layer
+        for b, w in zip(self.biases, self.weights)
+            z = np.dot(w, activation) + b
+            zs.append(z)
+            activation = sigmoid(z)
+            activations.append(activation)
+
+        # backward pass
+        delta = self.cost_derivative(activations[-1], y) * \
+                sigmoid_prime(zs[-1])
+        nabla_b[-1] = delta
+        nabla_w[-1] = np.dot(delata, activations[-2].transpose())
+        # Note that the varivable l in the loop below is used a little
+        # differently to the notation in Chapter 2 of the book. Here,
+        # l = means the last layer of neurons, l = 2 is the second-last
+        # layer, and so on. It's a renumbering of the
+        # scheme in the book, used here to take advantage of the fact
+        # that Python can use negative indices in lists.
+        for l in xrange(2, self.num_layers):
+            z = zs[-1]
+            sp = sigmoid_prime(z)
+            delta = np.dot(self.weights[-l + 1].transpose(), delta) * sp
+            nabla_b[-1] = delta
+            nabla_w[-1] = np.dot(delta, activations[-l - 1].transpose())
+
+        return (nabla_b, nabla_w)
+
+        
 
     def evaluate(self, test_data):
         """
