@@ -1,3 +1,3 @@
 Popular Machine Learning
 ===
-Implementations of some popular machine learning algorithms.
+Implementation of some popular machine learning algorithms.
