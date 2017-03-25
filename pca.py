@@ -36,14 +36,14 @@ def pca(X, k):
 	# 对特征值从大到小排序
 	sortedIndex = np.argsort(-eigValue)
 
-	# 选择k个最重要的特征
-	T = eigVector[sortedIndex[:k]]
+	# 选择k个最重要的特征及特征向量
+	T = eigVector[sortedIndex[:k]].T
 
 	# 得到降维后的数据
-	_X = np.dot(X, T.T)
-	recX = (_X * T) + avg
+	_X = np.dot(X, T)
+	print _X
 
-	return _X, recX
+	return _X, T, avg
 
 def plotBestFit(data1, data2):
 	dataArr1 = np.array(data1)
@@ -72,20 +72,12 @@ def plotBestFit(data1, data2):
 	plt.savefig('outfile.png')
 	plt.show()
 
-
-def main():
-	datafile = "data.txt"
-
-	X = load_data(datafile)
-	K = 2
-
-	return pca(X, k)
-
 if __name__ == '__main__':
 	datafile = "data.txt"
 	X = load_data(datafile)
 	k = 2;
 
-	X1, X2 = pca(X, k)
+	X1, T, avg = pca(X, k)
+	X2 = np.dot(X1, T.T) + avg
 
 	plotBestFit(X1, X2)
